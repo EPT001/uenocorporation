@@ -29,7 +29,11 @@ SECRET_KEY = 'django-insecure-=eu$=g21d0gq0qp2$dp9&22y+uiyu%hi3ark&&sa_nfjh^kn)o
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['uenocorporation.onrender.com']
+ALLOWED_HOSTS = [
+    "www.uenocorp.jp",
+    "uenocorp.jp",
+    "uenocorporation.onrender.com"
+]
 
 
 # Application definition
