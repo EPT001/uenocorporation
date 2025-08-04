@@ -32,7 +32,7 @@ DEBUG = True
 ALLOWED_HOSTS = [
     "www.uenocorp.jp",
     "uenocorp.jp",
-    "uenocorp.onrender.com"
+    "uenocorporation.onrender.com"
 ]
 
 
