@@ -20,8 +20,11 @@ from django.urls import include
 from uenowebsite import views
 from django.conf import settings
 from django.conf.urls.static import static
+from django.views.generic.base import RedirectView  # ✅ Add this import
+
 
 urlpatterns = [
+    path('eng/', RedirectView.as_view(url='/', permanent=True)),  # ✅ Redirect /eng/ to homepage
     path('', views.index, name='index'),
     path('uenowebsite/', include('uenowebsite.urls')),
     path('admin/', admin.site.urls),
