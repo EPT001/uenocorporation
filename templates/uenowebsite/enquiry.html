@@ -1,0 +1,249 @@
+{% extends 'uenowebsite/base.html' %}
+{% load static %}
+
+{% block title %}Enquiry - Ueno International Corporation{% endblock %}
+
+{% block content %}
+<style>
+    :root {
+        --primary-blue: #0056b3;
+        --primary-dark: #003b80;
+        --light-gray: #f8f9fa;
+        --dark-gray: #343a40;
+        --white: #ffffff;
+    }
+
+    /* Full-page background image */
+    .background-image {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-image: url("{% static 'images/building.jpeg' %}");
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        filter: brightness(0.65);
+        z-index: 0;
+    }
+
+    /* Hero Caption (centered on top of background) */
+    .hero-caption {
+        position: absolute;
+        top: 25%;
+        left: 50%;
+        transform: translateX(-50%);
+        background: rgba(0, 0, 0, 0.5);
+        padding: 40px 30px;
+        border-radius: 12px;
+        max-width: 700px;
+        color: white;
+        z-index: 2;
+        text-align: center;
+    }
+
+    .hero-caption h3 {
+        font-size: 3rem;
+        font-weight: 700;
+    }
+
+    .hero-caption p {
+        font-size: 1.25rem;
+        margin-top: 0.5rem;
+    }
+
+    /* Section with background gradient */
+    .page-section {
+        background: linear-gradient(to bottom, #f4f6fa 0%, #ffffff 100%);
+        padding: 80px 0;
+        position: relative;
+        z-index: 1;
+    }
+
+    .floating-form-container {
+        margin-top: 60vh;
+    }
+
+    .form-wrapper {
+        background-color: var(--white);
+        border-radius: 20px;
+        padding: 3.5rem;
+        max-width: 960px;
+        margin: 0 auto;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+        animation: slideUp 0.8s ease-out;
+        position: relative;
+        z-index: 1;
+    }
+
+    @keyframes slideUp {
+        from {
+            opacity: 0;
+            transform: translateY(50px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .form-heading {
+        text-align: center;
+        margin-bottom: 2rem;
+    }
+
+    .form-heading h2 {
+        font-size: 2.5rem;
+        color: var(--primary-blue);
+        font-weight: 700;
+    }
+
+    .form-heading p {
+        font-size: 1.1rem;
+        color: #555;
+    }
+
+    .form-label {
+        font-weight: 600;
+        color: var(--dark-gray);
+    }
+
+    .form-control {
+        border-radius: 10px;
+        padding: 12px 15px;
+        font-size: 1rem;
+        border: 1px solid #ced4da;
+        transition: all 0.3s ease;
+    }
+
+    .form-control:focus {
+        border-color: var(--primary-blue);
+        box-shadow: 0 0 0 0.2rem rgba(0, 86, 179, 0.25);
+    }
+
+    .btn-primary {
+        background-color: var(--primary-blue);
+        border: none;
+        font-weight: 600;
+        text-transform: uppercase;
+        padding: 14px 24px;
+        transition: all 0.3s ease;
+    }
+
+    .btn-primary:hover {
+        background-color: var(--primary-dark);
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    }
+
+    .btn-outline-primary {
+        border-color: var(--primary-blue);
+        color: var(--primary-blue);
+        font-weight: 600;
+        padding: 10px 20px;
+        transition: all 0.3s ease;
+    }
+
+    .btn-outline-primary:hover {
+        background-color: var(--primary-blue);
+        color: white;
+    }
+
+    .invalid-feedback {
+        font-size: 0.9rem;
+        color: #e74a3b;
+        margin-top: 0.25rem;
+    }
+
+    .footer-cta {
+        text-align: center;
+        padding: 50px 20px;
+        background: var(--light-gray);
+        margin-top: 60px;
+        border-radius: 16px;
+        position: relative;
+        z-index: 1;
+    }
+
+    footer {
+        position: relative;
+        z-index: 1;
+    }
+
+    @media (max-width: 768px) {
+        .hero-caption h3 {
+            font-size: 2rem;
+        }
+
+        .hero-caption p {
+            font-size: 1rem;
+        }
+
+        .form-wrapper {
+            padding: 2rem 1.5rem;
+        }
+
+        .floating-form-container {
+            margin-top: 50vh;
+        }
+    }
+</style>
+
+<!-- Background Image -->
+<div class="background-image"></div>
+
+<!-- Hero Caption -->
+<div class="hero-caption text-white text-center">
+    <h3>Ueno International Corporation</h3>
+    <p>Let’s build innovative solutions together. Contact us today.</p>
+</div>
+
+<!-- Form Section -->
+<div class="page-section floating-form-container">
+    <div class="form-wrapper">
+        <div class="form-heading">
+            <h2>Get in Touch</h2>
+            <p>We'd love to hear from you. Fill out the form and we'll get back to you shortly.</p>
+        </div>
+
+        {% if message %}
+            <div class="alert alert-success alert-dismissible fade show mb-4" role="alert">
+                <strong>Success!</strong> {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        {% endif %}
+
+        <form method="post">
+            {% csrf_token %}
+            <div class="row g-4">
+                {% for field in form %}
+                    <div class="col-md-6">
+                        <div class="mb-3">
+                            <label for="{{ field.id_for_label }}" class="form-label">{{ field.label }}</label>
+                            {{ field }}
+                            {% for error in field.errors %}
+                                <div class="invalid-feedback d-block">
+                                    <i class="bi bi-exclamation-circle me-1"></i>{{ error }}
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                {% endfor %}
+                <div class="col-12 mt-3">
+                    <button type="submit" class="btn btn-primary btn-lg w-100">
+                        <i class="bi bi-send me-2"></i>Submit Enquiry
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <div class="footer-cta mt-5">
+        <h4>Want to explore more about Ueno?</h4>
+        <a href="{% url 'uenowebsite:index' %}" class="btn btn-outline-primary mt-3">
+            <i class="bi bi-house me-2"></i>Back to Home
+        </a>
+    </div>
+</div>
+{% endblock %}

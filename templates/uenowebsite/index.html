@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+{% extends 'uenowebsite/base.html' %}
+{% load static %}
+
+<html>
+<head>
+    <title>Ueno Corporation</title>
+</head>
+<body>
+    <h1>Ueno Corporation says...</h1>
+    
+    <div>
+        Welcome to Ueno Corporation! <br />
+        <strong>{{ boldmessage }}</strong>
+    </div>
+
+    <div>
+        {% if categories %}
+            <h2>Categories</h2>
+            <ul>
+                {% for category in categories %}
+                    <li>
+                        <a href="{% url 'uenowebsite:show_category' category.slug %}">{{ category.name }}</a>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <strong>There are no categories available.</strong>
+        {% endif %}
+    </div>
+
+    <div>
+        <a href="{% url 'uenowebsite:about' %}">About Ueno Corporation</a><br />
+        <img src="{% static 'images/uenologo.jpeg' %}" alt="Picture of Ueno Corporation Logo" />
+    </div>
+
+    <div>
+        <a href="{% url 'uenowebsite:add_category' %}">Add a New Category</a><br />
+    </div>
+
+    <!-- Enquiry link added below -->
+    <div>
+        <a href="{% url 'uenowebsite:enquiry' %}">Make an Enquiry</a><br />
+    </div>
+
+</body>
+</html>
+

@@ -1,0 +1,1326 @@
+{% load static %}
+{% load uenowebsite_template_tags %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}UENO INTERNATIONAL CORPORATION{% endblock %}</title>
+
+    <!-- Bootstrap, FontAwesome, Google Fonts, and Custom CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    <style>
+        /* General Styles */
+        body {
+            font-family: 'Inter', sans-serif;
+            color: #333;
+            margin: 0;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Video Carousel Background */
+        .video-carousel-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        #carouselExample, .carousel-inner, .carousel-item {
+            height: 100vh;
+        }
+
+        .carousel-item video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .carousel-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.4); /* Dark overlay for better content visibility */
+        }
+        .carousel-caption {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(0, 59, 128, 0.6);
+    color: white;
+    padding: 40px 30px;
+    border-radius: 10px;
+    text-align: center;
+    width: 70%;
+    max-width: 1000px;
+    z-index: 10;
+}
+
+        .carousel-caption h1 {
+            font-size: 2.5rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+        .carousel-caption p {
+    font-size: 1.8rem;
+    font-weight: 500;
+    line-height: 1.4;
+    margin: 0;
+}
+        /* Carousel Caption Content */
+        .carousel-caption-content {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            color: white;
+        }
+
+        .carousel-logo {
+    max-width: 600px; /* Large logo */
+    width: 100%;
+    height: auto;
+    margin-bottom: 50px;
+}
+
+
+        /* Heading Styles - Bigger than before */
+        .carousel-heading {
+            font-size: 6rem; /* Significantly bigger heading */
+            font-weight: 900; /* Extra bold */
+            margin-bottom: 30px; /* Space below the heading */
+        }
+
+        /* Subheading Styles - Larger than before */
+        .carousel-subheading {
+            font-size: 2.5rem; /* Much larger subheading */
+            font-weight: 600; /* Bold but not too heavy */
+            line-height: 1.5; /* Increased line height for readability */
+            margin-bottom: 40px; /* More space below the subheading */
+        }
+
+        /* Content Sections */
+        .content-wrapper {
+            position: relative;
+            z-index: 10;
+            margin-top: 100vh; /* Space for the full-screen video */
+            background-color: white;
+        }
+
+        /* About Us Section Styles */
+        .about-us-section {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            padding: 100px 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .about-us-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 20"><defs><radialGradient id="g" cx="20" cy="20" r="20"><stop offset="0" stop-color="%23003b80" stop-opacity="0.05"/><stop offset="1" stop-color="%23003b80" stop-opacity="0"/></radialGradient></defs><rect width="100" height="20" fill="url(%23g)"/></svg>');
+            opacity: 0.3;
+        }
+
+        .about-title {
+            font-size: 3.5rem;
+            font-weight: 900;
+            color: #003b80;
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .about-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(90deg, #0056b3, #00aaff);
+            border-radius: 2px;
+        }
+
+        .about-subtitle {
+            font-size: 1.4rem;
+            color: #0056b3;
+            font-weight: 600;
+            margin-bottom: 30px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .about-description {
+            font-size: 1.2rem;
+            line-height: 1.8;
+            color: #555;
+            margin-bottom: 40px;
+            text-align: justify;
+        }
+
+        .about-stats {
+            margin-bottom: 40px;
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: 20px;
+            background: linear-gradient(135deg, #ffffff, #f8f9fa);
+            border-radius: 15px;
+            border: 2px solid #e9ecef;
+            transition: all 0.3s ease;
+            height: 120px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .stat-item:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 35px rgba(0, 59, 128, 0.15);
+            border-color: #0056b3;
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 900;
+            color: #0056b3;
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: #666;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .about-features {
+            margin-bottom: 40px;
+        }
+
+        .feature-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            padding: 15px 20px;
+            background: linear-gradient(135deg, #ffffff, #f8f9fa);
+            border-radius: 10px;
+            border-left: 4px solid #0056b3;
+            transition: all 0.3s ease;
+        }
+
+        .feature-item:hover {
+            transform: translateX(10px);
+            box-shadow: 0 8px 25px rgba(0, 86, 179, 0.1);
+        }
+
+        .feature-item i {
+            font-size: 1.5rem;
+            color: #0056b3;
+            margin-right: 15px;
+            width: 30px;
+            text-align: center;
+        }
+
+        .feature-item span {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .about-cta {
+            background: linear-gradient(135deg, #0056b3, #003b80);
+            border: none;
+            padding: 15px 40px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-radius: 50px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .about-cta::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .about-cta:hover::before {
+            left: 100%;
+        }
+
+        .about-cta:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(0, 59, 128, 0.3);
+            background: linear-gradient(135deg, #003b80, #0056b3);
+        }
+
+        .about-visual {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 500px;
+        }
+
+        .about-card {
+            position: relative;
+            width: 100%;
+            max-width: 500px;
+            height: 400px;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0, 59, 128, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .about-card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 30px 80px rgba(0, 59, 128, 0.3);
+        }
+
+        .about-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .card-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(0, 59, 128, 0.8), rgba(0, 86, 179, 0.6));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+
+        .about-card:hover .card-overlay {
+            opacity: 1;
+        }
+
+        .overlay-content {
+            text-align: center;
+            color: white;
+            transform: translateY(20px);
+            transition: all 0.3s ease;
+        }
+
+        .about-card:hover .overlay-content {
+            transform: translateY(0);
+        }
+
+        .overlay-content i {
+            font-size: 3rem;
+            margin-bottom: 20px;
+        }
+
+        .overlay-content h4 {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .overlay-content p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .floating-element {
+            position: absolute;
+            background: linear-gradient(135deg, #ffffff, #f8f9fa);
+            padding: 15px 20px;
+            border-radius: 50px;
+            box-shadow: 0 10px 30px rgba(0, 59, 128, 0.15);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border: 2px solid #e9ecef;
+            animation: float 6s ease-in-out infinite;
+            backdrop-filter: blur(10px);
+        }
+
+        .floating-element i {
+            font-size: 1.5rem;
+            color: #0056b3;
+        }
+
+        .floating-element span {
+            font-weight: 600;
+            color: #333;
+            font-size: 0.9rem;
+            white-space: nowrap;
+        }
+
+        .element-1 {
+            top: 20%;
+            right: -20px;
+            animation-delay: 0s;
+        }
+
+        .element-2 {
+            top: 60%;
+            left: -30px;
+            animation-delay: 2s;
+        }
+
+        .element-3 {
+            bottom: 20%;
+            right: 20px;
+            animation-delay: 4s;
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-20px);
+            }
+        }
+
+        /* Back to Top Button */
+        #backToTop {
+            display: none;
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: #0056b3;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 50%;
+            font-size: 18px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+        }
+
+        #backToTop:hover {
+            background: #003b80;
+        }
+
+        /* Navigation */
+        nav {
+            background: white;
+            border-bottom: 1px solid #eeeeee;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            padding: 5px 0;
+        }
+
+        .navbar-brand img {
+            width: 250px;
+        }
+
+        nav a {
+            color: #0056b3;
+            font-weight: 600;
+            padding: 8px 12px;
+            text-decoration: none;
+            text-transform: uppercase;
+        }
+
+        nav a:hover {
+            color: #003b80;
+        }
+
+        /* Product Information Section */
+        .product-info {
+            background-color: white;
+            padding: 40px 0;
+            text-align: center;
+        }
+
+        .product-info h2 {
+            color: #003b80;
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+
+        .product-item {
+            background: #ffffff;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            transition: all 0.3s ease-in-out;
+            cursor: pointer;
+        }
+
+        .product-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.15);
+        }
+
+        .product-item i {
+            font-size: 3rem;
+            color: #0056b3;
+            margin-bottom: 10px;
+        }
+
+        .product-item h5 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #003b80;
+        }
+
+        .goog-te-banner-frame.skiptranslate {
+            display: none !important;
+        }
+        body {
+            top: 0 !important;
+        }
+
+
+        h3.text-primary {
+            font-weight: 600;
+            border-bottom: 2px solid #007bff;
+            padding-bottom: 5px;
+            margin-top: 40px;
+            margin-bottom: 20px;
+        }
+
+
+        /* Product Grid Section */
+        .product-grid {
+            background-color: #ffffff;
+            padding: 60px 0;
+        }
+
+        .product-grid h2 {
+            text-align: center;
+            color: #003b80;
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 40px;
+        }
+
+        .product-card {
+            display: none; /* Hide by default */
+            background-color: #ffffff;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            text-align: center;
+            padding: 20px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            margin-bottom: 20px;
+        }
+
+        .product-card.active {
+            display: block; /* Show when active */
+        }
+
+        .product-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .product-card img {
+    width: 100%;         /* Full width of the card */
+    height: 250px;       /* Fixed height, consistent for all */
+    object-fit: contain; /* Contain inside fixed box without cropping */
+    display: block;
+    margin: 0 auto 15px auto;
+    background-color: #f8f8f8; /* Light background to keep consistent */
+    border-radius: 8px;  /* Optional, for a neat rounded look */
+}
+
+
+
+        .product-card h5 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #003b80;
+            margin-bottom: 10px;
+        }
+
+        .product-card p {
+            color: #555;
+            font-size: 0.9rem;
+        }
+
+        /* Company Strength Section */
+        .company-strength {
+            background-color: #003b80;
+            color: white;
+            padding: 60px 0;
+        }
+
+        .company-strength h2 {
+            text-align: center;
+            font-size: 2rem;
+            font-weight: 600;
+            margin-bottom: 40px;
+        }
+
+        .strength-card {
+            background-color: #ffffff;
+            color: #003b80;
+            border: 1px solid #003b80;
+            padding: 30px;
+            border-radius: 10px;
+            text-align: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .strength-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .strength-card i {
+            font-size: 3rem;
+            margin-bottom: 20px;
+        }
+
+        .strength-card h5 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .strength-card p {
+            color: #555;
+        }
+
+        /* Enquiry Section */
+        .enquiry-section {
+            background-color: #f8f9fa;  /* Light gray background */
+            padding: 80px 0;  /* Extra padding for spacing */
+            text-align: center;
+        }
+
+        .enquiry-section h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 30px;
+            color: #004085;  /* Dark blue for headings */
+        }
+
+        .enquiry-section form .form-control {
+            border: 1px solid #ddd;  /* Lighter border for input fields */
+            border-radius: 5px;
+            padding: 15px;
+            font-size: 1rem;
+            margin-bottom: 20px;
+            transition: border-color 0.3s ease;  /* Smooth transition for focus state */
+        }
+
+        .enquiry-section form .form-control:focus {
+            border-color: #0056b3;  /* Focus color matching the button */
+            box-shadow: 0 0 5px rgba(0, 86, 179, 0.2);  /* Subtle shadow on focus */
+        }
+
+        .enquiry-section form button {
+            background-color: #0069d9;  /* Primary blue background */
+            color: white;
+            font-weight: 600;
+            border-radius: 5px;
+            padding: 12px 30px;
+            font-size: 1.1rem;
+            transition: background-color 0.3s ease;
+        }
+
+        .enquiry-section form button:hover {
+            background-color: #0056b3;  /* Darker blue on hover */
+        }
+
+        /* For smaller screens, adjust padding */
+        @media (max-width: 768px) {
+            .enquiry-section {
+                padding: 50px 0;
+            }
+
+            .enquiry-section h2 {
+                font-size: 2rem;
+            }
+        }
+
+        /* Footer */
+        footer {
+            background-color: #003b80;
+            color: white;
+            padding: 40px 0;
+        }
+
+        footer h5 {
+            font-weight: bold;
+            font-size: 1.2rem;
+            color: #00aaff;
+        }
+
+        footer p {
+            font-size: 0.9rem;
+        }
+
+        footer a {
+            text-decoration: none;
+            color: #00aaff;
+            transition: color 0.3s ease;
+        }
+
+        footer a:hover {
+            color: white;
+        }
+
+        .social-media a {
+            font-size: 1.5rem;
+            margin-right: 15px;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            margin-top: 20px;
+            border-top: 1px solid #00aaff;
+            padding-top: 10px;
+        }
+
+        .footer-social {
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        .footer-social a {
+            display: inline-block;
+            margin: 0 10px;
+            font-size: 24px;
+            color: #00aaff;
+            transition: color 0.3s ease;
+        }
+
+        .footer-social a:hover {
+            color: white;
+        }
+        
+        /* Active category styling */
+        .product-item.active {
+            background-color: #0056b3;
+            color: white;
+        }
+        
+        .product-item.active i,
+        .product-item.active h5 {
+            color: white;
+        }
+        
+        .catalog-download-btn {
+            position: fixed;
+            top: 50%; /* Center the button vertically */
+            right: 0;
+            transform: translateY(-50%) rotate(-90deg); /* Rotate counter-clockwise and center vertically */
+            z-index: 1050;
+            background-color: #0056b3;
+            color: white;
+            font-size: 1.2rem; /* Font size for vertical text */
+            font-weight: 600;
+            padding: 12px 24px;
+            border-top-left-radius: 8px;
+            border-bottom-left-radius: 8px;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .catalog-text {
+            white-space: nowrap;
+            display: inline-block; 
+        }
+
+        .catalog-download-btn:hover {
+            background-color: #003b80;
+            text-decoration: none;
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.2);
+        }
+    </style>
+</head>
+
+<!-- Image Modal -->
+<div id="imageModal" class="modal" tabindex="-1" style="display:none; position:fixed; z-index:1050; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.8); align-items:center; justify-content:center;">
+    <span id="modalClose" style="position:absolute; top:20px; right:30px; font-size:40px; color:white; cursor:pointer;">&times;</span>
+    <img id="modalImage" src="" alt="Building Image" style="max-width:90%; max-height:80%; border-radius:8px;">
+  </div>
+  
+
+
+<body>
+    <!-- Floating Product Catalogue Button -->
+    <a href="{% static 'docs/UENO PRODUCT CATALOGUE.pdf' %}" 
+       target="_blank" 
+       class="catalog-download-btn shadow-lg" 
+       title="Download Ueno Product Catalogue">
+        <i class="bi bi-file-earmark-arrow-down-fill me-2"></i>
+        <span class="catalog-text">Product Catalogue</span>
+    </a>
+
+<!-- Navigation Section -->
+<nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
+    <div class="container">
+        <!-- Logo -->
+        <a class="navbar-brand d-flex align-items-center" href="#">
+            <img src="{% static 'images/logo_01.png' %}" alt="Ueno International Logo" class="logo-img">
+        </a>
+        
+        <!-- Navbar Toggler (for mobile) -->
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        
+        <!-- Back to Top Button -->
+        <button id="backToTop" class="btn btn-primary rounded-circle shadow-sm">
+            <i class="fas fa-chevron-up"></i>
+        </button>
+
+        <!-- Navbar Links -->
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ms-auto align-items-center">
+                <li class="nav-item"><a href="{% url 'uenowebsite:index' %}" class="nav-link">Home</a></li>
+                <li class="nav-item"><a href="{% url 'uenowebsite:about' %}" class="nav-link">About</a></li>
+                <li class="nav-item"><a href="{% url 'uenowebsite:enquiry' %}" class="nav-link">Enquiry</a></li>
+                <li class="nav-item"><a href="{% url 'uenowebsite:faq' %}" class="nav-link">FAQ</a></li>
+                <li class="nav-item"><a href="{% url 'uenowebsite:president_message' %}" class="nav-link">President’s Message</a></li>
+
+                <!-- Language Switcher -->
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="languageDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        🌐 Language
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="languageDropdown">
+                        <li><a class="dropdown-item" href="javascript:void(0)" onclick="translatePage('en')">English</a></li>
+                        <li><a class="dropdown-item" href="javascript:void(0)" onclick="translatePage('ja')">日本語</a></li>
+                      </ul>
+                      
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+    {% block content %}
+    <!-- Video Carousel Background -->
+    <div class="video-carousel-container">
+        <div id="carouselExample" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-inner">
+                <!-- Existing Items -->
+                <div class="carousel-item active">
+                    <div class="carousel-overlay"></div>
+                    <video class="d-block w-100" autoplay muted loop>
+                        <source src="{% static 'images/videodubai.mp4' %}" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                    <div class="carousel-caption">
+                        <div class="carousel-caption-content">
+                            <img src="{% static 'images/logo1.png' %}" alt="Ueno International Logo" class="carousel-logo">
+                            <p>Innovative Solutions for Global Industries</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <div class="carousel-overlay"></div>
+                    <video class="d-block w-100" autoplay muted loop>
+                        <source src="{% static 'images/steel.mp4' %}" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                    <div class="carousel-caption">
+                        <div class="carousel-caption-content">
+                            <img src="{% static 'images/logo1.png' %}" alt="Trading Logo" class="carousel-logo">
+                            <h1>Trading</h1>
+                            <p>Seamless Solutions for Global Trade</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="carousel-item">
+                    <div class="carousel-overlay"></div>
+                    <video class="d-block w-100" autoplay muted loop>
+                        <source src="{% static 'images/tokyo.mp4' %}" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                    <div class="carousel-caption">
+                        <div class="carousel-caption-content">
+                            <img src="{% static 'images/logo1.png' %}" alt="Real Estate Logo" class="carousel-logo">
+                            <h1>Real Estate</h1>
+                            <p>Innovative Solutions in Real Estate Development</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- New Usance-Based Finance Item -->
+                <div class="carousel-item">
+                    <div class="carousel-overlay"></div>
+                    <video class="d-block w-100" autoplay muted loop>
+                        <source src="{% static 'images/finance.mp4' %}" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                    <div class="carousel-caption">
+                        <div class="carousel-caption-content">
+                            <img src="{% static 'images/logo1.png' %}" alt="Usance Finance Logo" class="carousel-logo">
+                            <h1>Usance-Based Finance</h1>
+                            <p>Flexible Financial Solutions for Global Trade</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Carousel Controls -->
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            </button>
+        </div>
+    </div>
+
+
+    <!-- Content Wrapper (Everything that slides over the video) -->
+<div class="content-wrapper">
+<!-- About Us Section -->
+<section class="about-us-section py-5" id="about-us" style="background-color: rgba(255,255,255,0.95);">
+    <div class="container-fluid px-5">
+        <div class="row align-items-center">
+
+            <!-- Left Side - Content -->
+            <div class="col-lg-6 mb-4 mb-lg-0">
+                <div class="about-content">
+                    <h2 class="about-title">About Ueno International Corporation</h2>
+                    <div class="about-subtitle">Excellence in Global Trade Since 1968</div>
+
+                    <p class="about-description">
+                        Ueno International Corporation was established in 1968 as a focused trading company and has since evolved into a global enterprise with operations spanning multiple continents. Our dedication to innovation and excellence has enabled us to build a diverse portfolio that includes industrial equipment, steel products, robotics, and real estate development.
+                    </p>
+
+                    <div class="about-stats mb-4">
+                        <div class="row">
+                            <div class="col-4">
+                                <div class="stat-item">
+                                    <div class="stat-number">50+</div>
+                                    <div class="stat-label">Years Experience</div>
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                <div class="stat-item">
+                                    <div class="stat-number">50+</div>
+                                    <div class="stat-label">Countries Served</div>
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                <div class="stat-item">
+                                    <div class="stat-number">50+</div>
+                                    <div class="stat-label">Partners Worldwide</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="about-features mb-4">
+                        <div class="feature-item">
+                            <i class="fas fa-globe"></i>
+                            <span>Global Network & Partnerships</span>
+                        </div>
+                        <div class="feature-item">
+                            <i class="fas fa-award"></i>
+                            <span>Quality Assurance & Certification</span>
+                        </div>
+                        <div class="feature-item">
+                            <i class="fas fa-handshake"></i>
+                            <span>Trusted by Industry Leaders</span>
+                        </div>
+                    </div>
+
+                    <!-- Learn More Button - Linked properly -->
+                    <a href="{% url 'uenowebsite:about' %}" class="btn btn-primary btn-lg about-cta">
+                        Learn More About Us
+                        <i class="fas fa-arrow-right ms-2"></i>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Right Side - Image/Card -->
+            <div class="col-lg-6">
+                <div class="about-visual position-relative">
+                    <div class="about-card position-relative d-flex justify-content-center align-items-center" style="max-width: 400px; height: 300px; margin: auto; overflow: hidden; background: #fff; border-radius: 0.5rem; box-shadow: 0 0 15px rgba(0,0,0,0.15);">
+                        <img src="{% static 'images/logo1.png' %}" alt="Ueno International Corporation" class="about-image img-fluid" style="max-height: 80%; object-fit: contain;">
+                        
+                        <div class="card-overlay position-absolute top-0 start-0 w-100 h-100 d-flex flex-column justify-content-center align-items-center text-center text-white" style="background: rgba(0,0,0,0.5);">
+                            <i class="fas fa-building-columns fa-2x mb-2"></i>
+                            <h4>Building Tomorrow</h4>
+                            <p>Innovative solutions for a connected world</p>
+                        </div>
+                    </div>
+                    
+
+                    <!-- Floating Elements -->
+                    <div class="floating-element element-1">
+                        <i class="fas fa-shipping-fast"></i>
+                        <span>Global Logistics</span>
+                    </div>
+                    <div class="floating-element element-2">
+                        <i class="fas fa-chart-line"></i>
+                        <span>Growth Focused</span>
+                    </div>
+                    <div class="floating-element element-3">
+                        <i class="fas fa-shield-alt"></i>
+                        <span>Secure Trading</span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+
+    <!-- Product Information Section -->
+    <section class="product-info" id="product-info">
+        <div class="container">
+            <h2>Our Product Categories</h2>
+            <div class="row">
+                <div class="col-md-3">
+                    <div id="industrial-equipment-tab" class="product-item active" onclick="filterProducts('industrial-equipment')">
+                        <i class="fas fa-industry"></i>
+                        <h5>Industrial Equipment</h5>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div id="steel-products-tab" class="product-item" onclick="filterProducts('steel-products')">
+                        <i class="fas fa-tools"></i>
+                        <h5>Steel Products</h5>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div id="robots-tab" class="product-item" onclick="filterProducts('robots')">
+                        <i class="fas fa-robot"></i>
+                        <h5>Robots</h5>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div id="real-estate-tab" class="product-item" onclick="filterProducts('real-estate')">
+                        <i class="fas fa-building"></i>
+                        <h5>Real Estate</h5>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Product Grid Section -->
+    <section class="product-grid">
+        <div class="container">
+            <h2>Explore Our Products</h2>
+            <div class="row" id="products-container">
+                {% for product in products %}
+                    <div class="col-md-4 product-card {{ product.category|lower|slugify }} mb-4">
+                        {% if product.image %}
+                            <img src="{{ product.image.url }}" alt="{{ product.name }}">
+                        {% else %}
+                            <img src="{% static 'images/placeholder.jpg' %}" alt="No Image">
+                        {% endif %}
+                        <h5>{{ product.name }}</h5>
+                        <!-- Removed description to show only name -->
+                        <a href="{% url 'uenowebsite:product_detail' product_id=product.id %}" class="btn btn-primary mt-2">More Details</a>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+
+    <!-- Building Grid Section (hidden by default, shown on real estate filter) -->
+    <section class="product-grid">
+        <div class="container">
+            <div id="buildings-container" style="display: none;">
+                {% for series, buildings in grouped_buildings.items %}
+                    <h3 class="mt-5 text-primary">{{ series }}</h3>
+                    <div class="row">
+                        {% for building in buildings %}
+                            <div class="col-md-4 product-card real-estate mb-4">
+                                {% if building.photo %}
+                                <img src="{{ building.photo.url }}" alt="{{ building.name }}" class="img-fluid clickable-building">
+                                {% else %}
+                                <img src="{% static 'images/placeholder.jpg' %}" alt="No Image" class="img-fluid clickable-building">
+                                {% endif %}
+                                <h5>{{ building.name }}</h5>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+</div>
+
+
+<!-- Company Strength Section -->
+<section class="company-strength" id="company-strength">
+    <div class="container">
+        <h2>Our Company Strength</h2>
+        <div class="row">
+            <div class="col-md-4">
+                <div class="strength-card">
+                    <i class="fas fa-cogs"></i>
+                    <h5>Innovation</h5>
+                    <p>Leading-edge products that meet global needs.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="strength-card">
+                    <i class="fas fa-globe"></i>
+                    <h5>Global Reach</h5>
+                    <p>Expanding our footprint across multiple industries worldwide.</p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="strength-card">
+                    <i class="fas fa-users"></i>
+                    <h5>Customer Focus</h5>
+                    <p>Providing exceptional service with customer satisfaction at the core.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Enquiry Section -->
+<section class="enquiry-section" id="enquiry-section">
+    <div class="container text-center my-5">
+        <h2>Contact Us for Enquiries</h2>
+        <p class="lead mb-4">Have any questions? Reach out to us directly through the form!</p>
+        <a href="{% url 'uenowebsite:enquiry' %}" class="btn btn-outline-primary btn-lg px-5 py-3 shadow-sm">
+            <i class="bi bi-chat-left-text me-2"></i>Enquire Now
+        </a>
+    </div>
+</section>
+</div>
+{% endblock %}
+
+<!-- Google Translate Script -->
+<div id="google_translate_element" style="display:none;"></div>
+
+<script type="text/javascript">
+  function googleTranslateElementInit() {
+    new google.translate.TranslateElement({
+      pageLanguage: 'en',
+      includedLanguages: 'en,ja',
+      layout: google.translate.TranslateElement.InlineLayout.SIMPLE
+    }, 'google_translate_element');
+  }
+
+  function translatePage(lang) {
+    // Set the googtrans cookie to change language
+    document.cookie = "googtrans=/en/" + lang + ";path=/;domain=" + location.hostname;
+    location.reload();
+  }
+</script>
+
+<script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+
+<!-- Footer Section -->
+<footer class="bg-dark text-light py-5">
+    <div class="container">
+        <div class="row text-center text-md-start">
+            <!-- About Us Section -->
+            <div class="col-md-4 mb-4">
+                <h5 class="text-primary">About Us</h5>
+                <p>
+                    Ueno International Corporation is a global leader in providing innovative solutions for various industries. 
+                    We strive to exceed customer expectations by delivering the highest quality products and services.
+                </p>
+            </div>
+
+            <!-- Useful Links Section -->
+            <div class="col-md-4 mb-4">
+                <h5 class="text-primary">Useful Links</h5>
+                <ul class="list-unstyled">
+                    <li><a href="#product-info" class="text-light">Products</a></li>
+                    <li class="nav-item"><a href="{% url 'uenowebsite:about' %}" class="nav-link text-light">About Us</a></li>
+                    <li class="nav-item"><a href="{% url 'uenowebsite:enquiry' %}" class="nav-link text-light">Contact Us</a></li>                    
+                    <li><a href="#terms" class="text-light">Terms & Conditions</a></li>
+                </ul>
+            </div>
+
+            <!-- Contact Information Section -->
+            <div class="col-md-4 mb-4">
+                <h5 class="text-primary">Contact Us</h5>
+                <p><strong>Email:</strong> sales@uenocorp.jp</p>
+                <p><strong>Phone:</strong> +8106-6376-3081</p>
+                <p><strong>Address:</strong> UENO INTERNATIONAL CORPORATION, 3-15-16, TOYOSAKI, KITA-KU, OSAKA 531-0072, JAPAN</p>
+
+                <!-- Social Media Icons -->
+                <div class="social-media">
+                    <a href="#" class="text-light me-3"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="mailto:sales@uenocorp.jp" class="text-light me-3"><i class="fas fa-envelope"></i></a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer Bottom Section -->
+        <div class="row mt-4 text-center">
+            <div class="col">
+                <p class="mb-0">&copy; 2025 Ueno International Corporation. All rights reserved.</p>
+                <p>
+                    <a href="#terms" class="text-light">Terms of Service</a> |
+                    <a href="#privacy-policy" class="text-light">Privacy Policy</a>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- Bootstrap and FontAwesome JS -->
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.min.js"></script>
+
+<script>
+    // Show buildings by default for testing
+    document.addEventListener('DOMContentLoaded', function () {
+        // Show all products initially
+        showAllProducts();
+        
+        // Test - show buildings after a short delay
+        setTimeout(() => {
+            filterProducts('real-estate');
+        }, 500);
+
+        // Modal elements
+        const modal = document.getElementById('imageModal');
+        const modalImage = document.getElementById('modalImage');
+        const modalClose = document.getElementById('modalClose');
+
+        // Add click event to each building image
+        document.querySelectorAll('.clickable-building').forEach(function(img) {
+            img.style.cursor = 'pointer'; // cursor pointer on hover
+            img.addEventListener('click', function() {
+                modalImage.src = this.src; // set modal image src to clicked image src
+                modal.style.display = 'flex'; // show modal
+            });
+        });
+
+        // Close modal when clicking on close button
+        modalClose.addEventListener('click', function() {
+            modal.style.display = 'none';
+            modalImage.src = '';
+        });
+
+        // Close modal when clicking outside the image
+        modal.addEventListener('click', function(e) {
+            if (e.target === modal) {
+                modal.style.display = 'none';
+                modalImage.src = '';
+            }
+        });
+    });
+
+    function showAllProducts() {
+        // Show all product cards
+        document.querySelectorAll('.product-card').forEach(function (card) {
+            card.style.display = 'block';
+        });
+        
+        // Show buildings container
+        const buildingContainer = document.getElementById('buildings-container');
+        if (buildingContainer) {
+            buildingContainer.style.display = 'block';
+        }
+    }
+
+    function filterProducts(category) {
+        console.log('Filtering by category:', category); // Debug log
+        
+        // Hide all product cards first
+        document.querySelectorAll('.product-card').forEach(function (card) {
+            card.classList.remove('active');
+            card.style.display = 'none';
+        });
+
+        // Show only selected category cards
+        const categoryCards = document.querySelectorAll('.product-card.' + category);
+        console.log('Found cards for category:', categoryCards.length); // Debug log
+        
+        categoryCards.forEach(function (card) {
+            card.classList.add('active');
+            card.style.display = 'block';
+        });
+
+        // Show or hide the building container based on category
+        const buildingContainer = document.getElementById('buildings-container');
+        if (buildingContainer) {
+            if (category === 'real-estate') {
+                buildingContainer.style.display = 'block';
+                console.log('Showing buildings container'); // Debug log
+            } else {
+                buildingContainer.style.display = 'none';
+                console.log('Hiding buildings container'); // Debug log
+            }
+        } else {
+            console.log('Buildings container not found'); // Debug log
+        }
+
+        // Update tab highlighting (optional if you have tabs)
+        document.querySelectorAll('.product-item').forEach(function (item) {
+            item.classList.remove('active');
+        });
+        const activeTab = document.getElementById(category + '-tab');
+        if (activeTab) activeTab.classList.add('active');
+    }
+
+    // Back to Top button logic (if present)
+    const backToTopButton = document.getElementById('backToTop');
+    if (backToTopButton) {
+        window.onscroll = function () {
+            if (document.body.scrollTop > 100 || document.documentElement.scrollTop > 100) {
+                backToTopButton.style.display = "block";
+            } else {
+                backToTopButton.style.display = "none";
+            }
+        };
+
+        backToTopButton.onclick = function () {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        };
+    }
+
+    // Debug function - call this in browser console to check data
+    function debugBuildings() {
+        console.log('Buildings container:', document.getElementById('buildings-container'));
+        console.log('Real estate cards:', document.querySelectorAll('.product-card.real-estate'));
+        console.log('All building cards:', document.querySelectorAll('.product-card.real-estate').length);
+    }
+</script>

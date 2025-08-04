@@ -1,0 +1,262 @@
+{% extends 'uenowebsite/base.html' %}
+{% load static %}
+
+{% block title %}{{ product.name }} - Ueno International Corporation{% endblock %}
+
+{% block content %}
+<style>
+    :root {
+        --primary-blue: #0056b3;
+        --primary-dark: #003b80;
+        --light-gray: #f8f9fa;
+        --dark-gray: #343a40;
+        --white: #ffffff;
+        --card-border-color: #eaeaea;
+    }
+
+    .product-header {
+        background-color: var(--primary-blue);
+        padding: 60px 0;
+        color: white;
+        text-align: center;
+    }
+
+    .product-section {
+        background: linear-gradient(to bottom, #f4f6fa 0%, #ffffff 100%);
+        padding: 60px 0;
+    }
+
+    .product-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 15px;
+    }
+
+    .product-flex {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 30px;
+        justify-content: space-between;
+    }
+
+    .product-info {
+        flex: 1;
+        min-width: 300px;
+        max-width: 600px;
+    }
+
+    .product-image {
+    flex: 1;
+    min-width: 300px;
+    background-color: var(--light-gray);
+    border-radius: 12px;
+    overflow: hidden;
+    min-height: 400px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    padding: 15px;       /* Added padding here */
+    box-sizing: border-box; /* Include padding inside width */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.product-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;  /* Use contain so image scales inside */
+    border-radius: 8px;   /* Rounded corners for image */
+}
+
+
+    .product-title {
+        font-size: 2.5rem;
+        color: var(--primary-blue);
+        font-weight: 700;
+        margin-bottom: 1rem;
+    }
+
+    .product-description {
+        margin-bottom: 2rem;
+    }
+
+    .product-meta {
+        margin-bottom: 1rem;
+    }
+
+    .detail-card {
+        background-color: var(--white);
+        border-radius: 10px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        margin-bottom: 20px;
+        border: 1px solid var(--card-border-color);
+    }
+
+    .detail-card-header {
+        background-color: var(--primary-blue);
+        color: white;
+        padding: 15px 20px;
+        font-weight: 600;
+        font-size: 1.1rem;
+    }
+
+    .detail-card-body {
+        padding: 20px;
+    }
+
+    .btn-primary, .btn-secondary {
+        border: none;
+        font-weight: 600;
+        text-transform: uppercase;
+        padding: 14px 24px;
+        border-radius: 8px;
+        display: inline-block;
+        text-decoration: none;
+        margin-top: 1rem;
+    }
+
+    .btn-primary {
+        background-color: var(--primary-blue);
+        color: white;
+    }
+
+    .btn-primary:hover {
+        background-color: var(--primary-dark);
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    }
+
+    .btn-secondary {
+        background-color: #212529;
+        color: white;
+        margin-left: 10px;
+    }
+
+    .btn-secondary:hover {
+        background-color: #000;
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    }
+
+    .countries-sold {
+        margin: 30px 0;
+    }
+
+    .countries-title {
+        font-size: 1.3rem;
+        font-weight: 600;
+        margin-bottom: 10px;
+    }
+
+    .back-to-top {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        background-color: var(--primary-blue);
+        color: white;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        text-decoration: none;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        z-index: 100;
+    }
+
+    .back-to-top:hover {
+        background-color: var(--primary-dark);
+    }
+
+    @media (max-width: 768px) {
+        .product-flex {
+            flex-direction: column;
+        }
+
+        .product-title {
+            font-size: 2rem;
+        }
+
+        .product-image {
+            min-height: 300px;
+        }
+    }
+</style>
+
+<!-- Product Header -->
+<div class="product-header">
+    <h1>Product Details</h1>
+</div>
+
+<!-- Product Section -->
+<div class="product-section">
+    <div class="product-container">
+        <div class="product-flex">
+            <!-- Product Information -->
+            <div class="product-info">
+                <h2 class="product-title">{{ product.name }}</h2>
+                <div class="product-meta">
+                    <span class="badge bg-primary">{{ product.category }}</span>
+                    {% if product.is_new %}
+                        <span class="badge bg-success ms-2">New</span>
+                    {% endif %}
+                </div>
+                
+                <div class="product-description">
+                    <h3>Product Description</h3>
+                    <div>{{ product.description|safe }}</div>
+                </div>
+                
+                <!-- Overview Card (Only Quality) -->
+                <div class="detail-card">
+                    <div class="detail-card-header">Overview</div>
+                    <div class="detail-card-body">
+                        <div>
+                            <p>{{ product.overview }}</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Specifications Card -->
+                <div class="detail-card">
+                    <div class="detail-card-header">Specifications</div>
+                    <div class="detail-card-body">
+                        <p>{{ product.specifications }}</p>
+                    </div>
+                </div>
+                
+                <!-- Countries Sold -->
+                <div class="countries-sold">
+                    <h4 class="countries-title">Countries Sold: {{ product.countries_sold }}</h4>
+                </div>
+                
+                <!-- Action Buttons -->
+                <a href="{% url 'uenowebsite:enquiry' %}?product={{ product.id }}" class="btn-primary">
+                    <i class="bi bi-send me-2"></i>Inquire Now
+                </a>
+                {% if product.catalog_url %}
+                <a href="{{ product.catalog_url }}" class="btn-secondary" target="_blank">
+                    <i class="bi bi-file-earmark-pdf me-2"></i>Download Maker's Catalog
+                </a>
+                {% endif %}
+            </div>
+            
+            <!-- Product Image -->
+            <div class="product-image">
+                {% if product.image %}
+                    <img src="{{ product.image.url }}" alt="{{ product.name }}">
+                {% else %}
+                    <div style="display: flex; justify-content: center; align-items: center; height: 100%;">
+                        <i class="bi bi-image" style="font-size: 4rem; color: #ccc;"></i>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Back to Top Button -->
+<a href="#" class="back-to-top">
+    <i class="bi bi-arrow-up"></i>
+</a>
+{% endblock %}

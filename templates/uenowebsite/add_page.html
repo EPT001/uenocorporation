@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+{% extends 'uenowebsite/base.html' %}
+
+
+<html>
+<head>
+    <title>Add a Page - {{ category.name }}</title>
+</head>
+<body>
+    <h1>Add a Page to {{ category.name }}</h1>
+    
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input type="submit" value="Save Page">
+    </form>
+
+    <br>
+    <a href="{% url 'uenowebsite:show_category' category.slug %}">Back to Category</a>
+</body>
+</html>

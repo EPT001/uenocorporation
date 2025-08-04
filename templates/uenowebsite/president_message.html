@@ -1,0 +1,65 @@
+{% extends 'uenowebsite/base.html' %}
+{% load static %}
+
+{% block title %}President's Message - Ueno International Corporation{% endblock %}
+
+{% block content %}
+<section class="py-5 bg-light text-center">
+    <div class="container">
+        <h1 class="display-5 fw-bold">代表メッセージ / President's Message</h1>
+    </div>
+</section>
+
+<section class="py-5">
+    <div class="container">
+        <!-- Japanese Section -->
+        <div class="mb-5">
+            <h4 class="text-primary">社長メッセージ</h4>
+            <p>
+                1986年1月、資本金5,000万円で ウエノ を創業して以来、私は「信頼」「公平」「長期的な関係」を成功するビジネスの礎として大切にしてまいりました。
+            </p>
+            <p>
+                製造業の企業が私たちのような商社を選ぶのは、製品の提供にとどまらず、正確でタイムリーな市場情報を共有し、取引上のリスクを引き受ける存在としての価値を認めていただいているからだと考えています。私たちはお客様の価値観を体現する存在として、エンドユーザーに対しても誠実で丁寧なサービスを提供することを使命としています。
+            </p>
+            <p>
+                私は50年以上にわたり、中東地域の多くの方々と信頼関係を築いてきました。彼らの支えがあったからこそ、ウエノは鉄鋼製品および産業機械の分野でリーディングカンパニーへと成長することができました。この地域は私自身の価値観や経営方針にも大きな影響を与えてくれました。今後はその恩返しとして、日本の方々に中東市場の豊かさと人々の誠実な人柄を伝えていきたいと考えています。
+            </p>
+            <p>
+                ウエノでは「すべての人に平等な機会を」という理念を重視しています。年齢、性別、国籍、学歴、経歴にかかわらず、成果を出した人が正当に評価され、昇進し、報酬を受けるべきだと考えています。ウエノは特定の家族のものではなく、能力・誠実さ・情熱を持つすべての人のものです。
+            </p>
+            <p>
+                そして今、社名を株式会社ウエノインターナショナル へと改め、国際的なブランド構築に向けて新たな一歩を踏み出しました。これまで培ってきた「公平さ」「サービスの質」「信頼関係」を土台に、世界に通用する企業を目指してまいります。
+            </p>
+            <p>
+                皆さまの変わらぬご支援に心より感謝申し上げます。これからも誠実な姿勢を貫き、関わるすべての方々と共に成長と喜びを分かち合ってまいります。
+            </p>
+            <p class="fw-bold">田中 末勝<br>代表取締役社長<br>株式会社ウエノインターナショナル</p>
+        </div>
+
+        <!-- English Section -->
+        <div>
+            <h4 class="text-primary">Message from the President</h4>
+            <p>
+                Since founding Ueno in January 1986 with a modest capital of 50 million JPY, I have believed that trust, fairness, and long-term relationships form the foundation of a successful business.
+            </p>
+            <p>
+                I believe that manufacturing companies choose trading firms like ours not only for product supply, but because we provide accurate, timely market insights and take on risks that might otherwise hinder their operations. Our mission is to embody our clients’ values and serve end-users with integrity and care.
+            </p>
+            <p>
+                Over the past 50 years, I have built strong relationships throughout the Middle East. Thanks to this support, Ueno has grown into a leading company in the steel products and industrial machinery sectors. The region has deeply shaped not only our success, but also my personal and managerial values. I feel it is my duty to share the richness of the Middle Eastern market and the sincerity of its people with Japan.
+            </p>
+            <p>
+                At Ueno, we stand by a core belief: equal opportunity for all. Regardless of age, gender, nationality, education, or background, individuals who perform should be evaluated fairly, promoted accordingly, and rewarded. Ueno is not a family business — it belongs to those who lead with ability, integrity, and passion.
+            </p>
+            <p>
+                Today, under our renewed name, Ueno International Corporation, we are setting our sights higher. We aim to become a global brand rooted in the same values that have supported us so far: fairness, quality service, and lasting relationships.
+            </p>
+            <p>
+                I truly appreciate your continued support. We will continue to move forward with sincerity, grow together, and share success with all those involved.
+            </p>
+            <p class="fw-bold mb-2">Suekatsu Tanaka<br>President<br>Ueno International Corporation</p>
+            <img src="{% static 'images/signature.jpg' %}" alt="President Suekatsu Tanaka Signature" class="img-fluid" style="max-height: 120px;">
+        </div>
+    </div>
+</section>
+{% endblock %}

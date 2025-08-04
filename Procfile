@@ -1,0 +1,1 @@
+web: gunicorn uenocorporation.wsgi

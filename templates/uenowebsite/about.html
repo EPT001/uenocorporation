@@ -1,0 +1,809 @@
+{% extends 'uenowebsite/base.html' %}
+{% load static %}
+
+
+{% block title %}Ueno Corporation - About Us{% endblock %}
+
+{% block content %}
+<style>
+    /* Custom vibrant color palette within brand colors */
+    :root {
+        --primary-blue: #0056b3;
+        --bright-blue: #007bff;
+        --light-blue: #e6f2ff;
+        --accent-blue: #00c3ff;
+        --dark-blue: #003366;
+        --light-gray: #f8f9fa;
+        --mid-gray: #6c757d;
+        --dark-gray: #343a40;
+    }
+    
+    /* Main structural changes for fullscreen carousel */
+    html, body {
+        height: 100%;
+        overflow-x: hidden;
+    }
+    
+    /* Full screen background carousel */
+    .fullscreen-carousel {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100vh;
+        z-index: -1;
+    }
+    
+    .fullscreen-carousel .carousel-item {
+        height: 100vh;
+    }
+    
+    .fullscreen-carousel .carousel-item img {
+        height: 100%;
+        width: 100%;
+        object-fit: cover;
+    }
+    
+    /* Content container */
+    .content-container {
+        position: relative;
+        background-color: rgba(255, 255, 255, 0.9);
+        margin-top: 65vh;
+        border-top-left-radius: 30px;
+        border-top-right-radius: 30px;
+        padding-top: 2rem;
+        box-shadow: 0 -10px 20px rgba(0, 0, 0, 0.2);
+        min-height: 100vh;
+    }
+    
+    /* Header overlay on carousel */
+    .header-overlay {
+        position: absolute;
+        top: 30%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 80%;
+        text-align: center;
+        z-index: 10;
+    }
+    
+    /* Gradient backgrounds for enhanced visual appeal */
+    .gradient-bg {
+        background: linear-gradient(-45deg, var(--primary-blue), var(--dark-blue), var(--accent-blue), var(--bright-blue));
+        background-size: 400% 400%;
+        animation: gradient 15s ease infinite;
+        color: white;
+    }
+    
+    @keyframes gradient {
+        0% { background-position: 0% 50%; }
+        50% { background-position: 100% 50%; }
+        100% { background-position: 0% 50%; }
+    }
+    
+    /* Card hover effects */
+    .card {
+        transition: all 0.3s ease;
+        border-left: 4px solid transparent;
+        margin-bottom: 1.5rem;
+    }
+    
+    .card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        border-left: 4px solid var(--accent-blue);
+    }
+    
+    /* Section styling */
+    .about-section {
+        position: relative;
+        z-index: 1;
+        padding: 2rem 0;
+    }
+    
+    /* Enhanced visual elements */
+    .fade-in {
+        animation: fadeIn 1s ease-in;
+    }
+    
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+    
+    /* Vibrant card styles */
+    .card-company {
+        background: linear-gradient(135deg, var(--light-blue), white);
+        border-top: 4px solid var(--accent-blue);
+        height: 100%;
+    }
+    
+    .card-leadership {
+        background: linear-gradient(135deg, #f0f8ff, white);
+        border-top: 4px solid var(--primary-blue);
+        height: 100%;
+    }
+    
+    .card-vision {
+        background: linear-gradient(135deg, #e6f7ff, white);
+        border-bottom: 4px solid var(--dark-blue);
+        height: 100%;
+    }
+    
+    .card-activities {
+        background: linear-gradient(135deg, #f0f9ff, white);
+        border-bottom: 4px solid var(--bright-blue);
+        height: 100%;
+        margin-bottom: 15px;
+    }
+    
+    /* Office cards with enhanced styling */
+    .office-card {
+        overflow: hidden;
+        border-radius: 15px;
+        border: none;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        transition: all 0.4s ease;
+        height: 100%;
+        margin-bottom: 0;
+    }
+    
+    .office-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 15px 30px rgba(0, 86, 179, 0.15);
+    }
+    
+    .office-card img {
+        height: 160px;
+        object-fit: cover;
+        transition: all 0.5s ease;
+        width: 100%;
+    }
+    
+    .office-card:hover img {
+        transform: scale(1.05);
+    }
+    
+    .office-card .card-body {
+        padding: 1.5rem;
+    }
+    
+    .office-card .card-title {
+        font-weight: 700;
+        margin-bottom: 0.75rem;
+        color: var(--dark-blue);
+        font-size: 1.1rem;
+    }
+    
+    .office-card .btn {
+        background: var(--primary-blue);
+        border: none;
+        transition: all 0.3s ease;
+        margin-top: 0.5rem;
+        padding: 0.4rem 0.75rem;
+        font-size: 0.9rem;
+    }
+    
+    .office-card .btn:hover {
+        background: var(--dark-blue);
+        transform: scale(1.05);
+    }
+    
+    /* Icon styling */
+    .bi {
+        margin-right: 8px;
+        color: var(--accent-blue);
+    }
+    
+    /* Header styling */
+    h1.display-4 {
+        color: white;
+        font-weight: 800;
+        letter-spacing: -1px;
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        margin-bottom: 1rem;
+    }
+    
+    /* Map container */
+    .map-container {
+        border-radius: 15px;
+        overflow: hidden;
+        box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        border: 2px solid var(--light-blue);
+        margin-bottom: 2rem;
+    }
+    
+    /* CTA button animation */
+    .hover-effect {
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+        z-index: 1;
+    }
+    
+    .hover-effect:after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 0;
+        background: var(--dark-blue);
+        z-index: -1;
+        transition: height 0.3s ease;
+    }
+    
+    .hover-effect:hover:after {
+        height: 100%;
+    }
+    
+    .hover-effect:hover {
+        color: white;
+    }
+    
+    /* Section spacing */
+    .section-header {
+        margin-bottom: 2rem;
+        padding: 1.5rem;
+    }
+    
+    .section-content {
+        margin-bottom: 3rem;
+    }
+    
+    /* List spacing */
+    .list-unstyled li {
+        padding: 0.5rem 0;
+        border-bottom: 1px solid rgba(0,0,0,0.05);
+    }
+    
+    .list-unstyled li:last-child {
+        border-bottom: none;
+    }
+    
+    /* Additional office card spacing */
+    .office-wrapper {
+        margin-bottom: 1.5rem;
+        height: 100%;
+    }
+    
+    /* Map placeholder styling */
+    .picture-box {
+        height: 400px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 10px;
+    }
+    
+    /* Back to home button container */
+    .back-home-container {
+        margin: 4rem 0 2rem;
+        padding: 1rem;
+    }
+    
+    /* Sliding about sections */
+    .about-category-item {
+        text-align: center;
+        padding: 30px 15px;
+        border-radius: 8px;
+        background-color: white;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease;
+        cursor: pointer;
+        margin-bottom: 20px;
+        border-left: 4px solid var(--accent-blue);
+    }
+    
+    .about-category-item:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 15px 30px rgba(0, 86, 179, 0.15);
+        border-left: 4px solid var(--bright-blue);
+    }
+    
+    .about-category-item i {
+        font-size: 2.5rem;
+        color: var(--primary-blue);
+        margin-bottom: 15px;
+    }
+    
+    .about-category-item.active {
+        background: linear-gradient(135deg, var(--light-blue), white);
+        border-left: 4px solid var(--bright-blue);
+        transform: translateY(-5px);
+    }
+    
+    /* About content sections */
+    .about-content {
+        display: none;
+        padding: 30px;
+        margin-top: 30px;
+        background-color: white;
+        border-radius: 8px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        animation: fadeIn 0.5s ease-in;
+    }
+    
+    .slide-up {
+        animation: slideUp 0.5s ease-out;
+    }
+    
+    @keyframes slideUp {
+        from { opacity: 0; transform: translateY(50px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+    
+    /* Business activity cards */
+    .business-card {
+        background: linear-gradient(135deg, #f0f9ff, white);
+        border-left: 4px solid var(--accent-blue);
+        border-radius: 8px;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease;
+        height: 100%;
+        padding: 1.25rem;
+        margin-bottom: 10px;
+    }
+    
+    .business-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+    }
+    
+    .business-card-icon {
+        font-size: 2rem;
+        color: var(--primary-blue);
+        margin-bottom: 0.75rem;
+    }
+
+    /* Vision mission container */
+    .vm-container {
+        margin-bottom: 10px;
+    }
+    
+    .vm-container .card {
+        margin-bottom: 10px;
+        padding: 15px;
+    }
+    
+    .vm-card-heading {
+        font-size: 1rem;
+        margin-bottom: 10px;
+    }
+    
+    .vm-card-text {
+        font-size: 0.95rem;
+        margin-bottom: 0;
+    }
+    
+    /* Remove extra margin from office cards in small screens */
+    @media (max-width: 767.98px) {
+        .office-wrapper {
+            margin-bottom: 1rem;
+        }
+        
+        .office-card {
+            margin-bottom: 0;
+        }
+        
+        .office-card img {
+            height: 140px;
+        }
+        
+        .business-card {
+            margin-bottom: 1rem;
+        }
+        
+        .content-container {
+            margin-top: 50vh;
+        }
+    }
+</style>
+
+<!-- Fullscreen Background Carousel Start -->
+<div id="aboutCarousel" class="carousel slide fullscreen-carousel" data-bs-ride="carousel">
+    <div class="carousel-inner">
+        <div class="carousel-item active">
+            <img src="{% static 'images/consulting.jpg' %}" class="d-block w-100" alt="About Image 1">
+        </div>
+    </div>
+</div>
+<!-- Fullscreen Background Carousel End -->
+
+<!-- Header Overlay -->
+<div class="header-overlay">
+    <h1 class="display-4 fw-bold">Ueno International Corporation</h1>
+    <p class="lead text-white mb-0" style="text-shadow: 1px 1px 3px rgba(0,0,0,0.7);">Global Presence, Local Expertise</p>
+</div>
+
+<!-- Main Content Container that slides over the background -->
+<div class="content-container">
+    <div class="container">
+        <!-- Main About Section with Sliding Categories -->
+        <section class="about-categories-section">
+            <div class="gradient-bg p-4 rounded-3 mb-5 section-header">
+                <h3 class="h4 text-center text-white mb-0">
+                    <i class="bi bi-info-circle"></i> About Ueno International Corporation
+                </h3>
+            </div>
+            
+            <!-- About Categories that can be clicked -->
+            <div class="row mb-5">
+                <div class="col-md-3">
+                    <div class="about-category-item" onclick="showAboutContent('company-overview')">
+                        <i class="bi bi-building"></i>
+                        <h5>Company Overview</h5>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="about-category-item" onclick="showAboutContent('leadership')">
+                        <i class="bi bi-person-badge-fill"></i>
+                        <h5>Leadership Team</h5>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="about-category-item" onclick="showAboutContent('vision-mission')">
+                        <i class="bi bi-lightbulb-fill"></i>
+                        <h5>Vision & Mission</h5>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="about-category-item" onclick="showAboutContent('global-offices')">
+                        <i class="bi bi-globe"></i>
+                        <h5>Global Offices</h5>
+                    </div>
+                </div>
+            </div>
+            
+           <!-- About Content Sections (will slide in when clicked) -->
+<div class="about-content-container">
+    <!-- Company Overview Content -->
+    <div id="company-overview-content" class="about-content slide-up">
+        <div class="row align-items-center">
+            <div class="col-md-6 mb-4 mb-md-0">
+                <ul class="list-unstyled">
+                    <li class="mb-3 pb-2 border-bottom">
+                        <i class="bi bi-calendar3" style="color: var(--accent-blue);"></i> 
+                        <strong>Established:</strong> January 13, 1986
+                    </li>
+                    <li class="mb-3 pb-2 border-bottom">
+                        <i class="bi bi-bank2" style="color: var(--accent-blue);"></i> 
+                        <strong>Primary Bank:</strong> Global Bank
+                    </li>
+                    <li class="mb-3 pb-2 border-bottom">
+                        <i class="bi bi-people-fill" style="color: var(--accent-blue);"></i> 
+                        <strong>Employees:</strong> 30+
+                    </li>
+                    <li class="mb-3 pb-2 border-bottom">
+                        <i class="bi bi-currency-yen" style="color: var(--accent-blue);"></i> 
+                        <strong>Revenue:</strong> 12 Billion yen
+                    </li>
+                    <li class="mb-3 pb-2 border-bottom">
+                        <i class="bi bi-handshake" style="color: var(--accent-blue);"></i>
+                        <strong>Major Company Partners:</strong> [Domestic: Uesugi Transport Machinery Manufacturing Co., Ltd. / Daihen Co., Ltd. / Nitsuko Fuse Industry Co., Ltd. / Shineitec Co., Ltd. / Rekis Industry Co., Ltd. / Mitsutoyo Co., Ltd. / Nittetsu Bussan Co., Ltd. / Hasetora Shoten Co., Ltd. / KMS Co., Ltd. Overseas: Excellent overseas manufacturers such as Taiwan, China, Korea, Germany, Italy, and Turkey]
+                    </li>
+                    <li class="mb-3 pb-2 border-bottom">
+                        <i class="bi bi-building-check" style="color: var(--accent-blue);"></i>
+                        <strong>Capital:</strong> 95 Million yen
+                    </li>
+                    <li class="mb-3 pb-0">
+                        <i class="bi bi-globe" style="color: var(--accent-blue);"></i> 
+                        <strong>Major Trading Countries:</strong>
+                        Saudi Arabia, United Arab Emirates, Kuwait, Qatar, Bahrain, Oman, Jordan, Singapore, Hong Kong, Taiwan, United States, Australia, Malaysia, South Korea, China, Europe, Africa, Others
+                    </li>
+                </ul>
+                <p class="mt-4">Ueno Corporation was established in 1967 as a small trading company and has since grown into a global enterprise with operations across multiple continents. Our commitment to excellence and innovation has led us to become a leader in our industry.</p>
+            </div>
+            <div class="col-md-6">
+                <div class="card shadow border-0 rounded-4 overflow-hidden">
+                    <img src="{% static 'images/headoffice.png' %}" 
+                         alt="Company Overview" 
+                         class="card-img-top img-fluid">
+                </div>
+            </div>
+            
+        </div>
+    </div>
+</div>
+
+                
+ <!-- Leadership Team Content -->
+<div id="leadership-content" class="about-content">
+    <h3 class="mb-4">Leadership Team</h3>
+    <div class="row">
+        <!-- President -->
+        <div class="col-md-3">
+            <div class="card shadow h-100 text-center">
+                <div class="card-body">
+                    <div class="mb-3">
+                        <i class="bi bi-person-badge-fill" style="font-size: 3rem; color: #0d6efd;"></i>
+                    </div>
+                    <h5 class="card-title">Mr. Suekatsu Tanaka</h5>
+                    <p class="card-text fw-bold">President</p>
+                    <p>Founder and president of Ueno International Corporation, leading with decades of experience in global trade and Middle Eastern markets.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Head of Real Estate -->
+        <div class="col-md-3">
+            <div class="card shadow h-100 text-center">
+                <div class="card-body">
+                    <div class="mb-3">
+                        <i class="bi bi-house-door-fill" style="font-size: 3rem; color: #0d6efd;"></i>
+                    </div>
+                    <h5 class="card-title">Mr. Katsunari Tanaka</h5>
+                    <p class="card-text fw-bold">Head of Real Estate</p>
+                    <p>Katsunari leads Ueno's real estate ventures, focusing on strategic investments and property development across key markets.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Head of Finance and Accounting -->
+        <div class="col-md-3">
+            <div class="card shadow h-100 text-center">
+                <div class="card-body">
+                    <div class="mb-3">
+                        <i class="bi bi-cash-stack" style="font-size: 3rem; color: #0d6efd;"></i>
+                    </div>
+                    <h5 class="card-title"> Mr. Toshiyuki Tanaka</h5>
+                    <p class="card-text fw-bold">Head of Finance and Accounting</p>
+                    <p>Toshiyuki oversees financial reporting, compliance, and internal controls, ensuring sound financial management at Ueno.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Director -->
+        <div class="col-md-3">
+            <div class="card shadow h-100 text-center">
+                <div class="card-body">
+                    <div class="mb-3">
+                        <i class="bi bi-briefcase-fill" style="font-size: 3rem; color: #0d6efd;"></i>
+                    </div>
+                    <h5 class="card-title">Mr. Otsu</h5>
+                    <p class="card-text fw-bold">Director</p>
+                    <p>Otsu brings a wealth of leadership and organizational strategy, guiding the overall direction of the company’s operations.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+             
+                <!-- Vision & Mission Content -->
+                <div id="vision-mission-content" class="about-content">
+                    <h3 class="mb-4">Our Vision & Mission</h3>
+                    <div class="row">
+                        <!-- Vision & Mission Column -->
+                        <div class="col-md-5 vm-container">
+                            <div class="card card-vision border-0 shadow-sm p-3">
+                                <h4 class="h5 text-uppercase mb-2" style="color: var(--primary-blue);">
+                                    <i class="bi bi-lightbulb-fill"></i> Our Vision
+                                </h4>
+                                <p class="vm-card-text">To be a global leader in Trading, Real Estate and Usance-based Finance empowering businesses and individuals with innovative solutions.</p>
+                            </div>
+                        </div>
+                        
+                        <!-- Business Activities Column -->
+                        <div class="col-md-7">
+                            <h4 class="h5 mb-3" style="color: var(--primary-blue);">Our Business Activities</h4>
+                            <div class="row g-3">
+                                <div class="col-md-12">
+                                    <div class="business-card">
+                                        <div class="d-flex align-items-center">
+                                            <div class="business-card-icon me-3">
+                                                <i class="bi bi-cart3"></i>
+                                            </div>
+                                            <div>
+                                                <h5 class="h6 mb-1">Trading</h5>
+                                                <p class="mb-0 small">International trade solutions connecting suppliers and buyers across global markets with efficient logistics and supply chain management.</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="col-md-12">
+                                    <div class="business-card">
+                                        <div class="d-flex align-items-center">
+                                            <div class="business-card-icon me-3">
+                                                <i class="bi bi-buildings"></i>
+                                            </div>
+                                            <div>
+                                                <h5 class="h6 mb-1">Real Estate</h5>
+                                                <p class="mb-0 small">Premium property development, investment, and management services in strategic locations around Japan.</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="col-md-12">
+                                    <div class="business-card">
+                                        <div class="d-flex align-items-center">
+                                            <div class="business-card-icon me-3">
+                                                <i class="bi bi-cash-stack"></i>
+                                            </div>
+                                            <div>
+                                                <h5 class="h6 mb-1">Usance-based Finance</h5>
+                                                <p class="mb-0 small">Innovative financial solutions providing deferred payment terms and flexible credit options for business growth.</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+<!-- Global Offices Content -->
+<section>
+    <div id="global-offices-content" class="about-content">
+        <h3 class="mb-4">Our Global Offices</h3>
+        <div class="row g-3">
+            <!-- Osaka Office -->
+            <div class="col-md-4 col-sm-6 office-wrapper">
+                <div class="card office-card shadow h-100 d-flex flex-column">
+                    <img src="{% static 'images/Osaka Umeda.jpg' %}" class="card-img-top" alt="Office in Osaka">
+                    <div class="card-body d-flex flex-column">
+                        <h4 class="card-title"><i class="bi bi-geo-alt-fill"></i> Osaka (Head Office)</h4>
+                        <p class="flex-grow-1">
+                            <strong>Address:</strong><br>
+                            TENZAN & UENO Bldg. 5th Floor<br>
+                            15-16, 3-Chome Toyosaki, Kita-Ku<br>
+                            Osaka, Japan 531-0072<br>
+                            <strong>Tel:</strong> +81 6-6376-3081<br>
+                            <strong>Fax:</strong> +81 6-6376-3086<br>
+                            <strong>Email:</strong> info@uenocorp.jp
+                        </p>
+                        <a href="{% url 'uenowebsite:enquiry' %}" class="btn btn-primary mt-auto">Inquire Now</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Dubai Office -->
+            <div class="col-md-4 col-sm-6 office-wrapper">
+                <div class="card office-card shadow h-100 d-flex flex-column">
+                    <img src="{% static 'images/dubai.jpg' %}" class="card-img-top" alt="Office in Dubai">
+                    <div class="card-body d-flex flex-column">
+                        <h4 class="card-title"><i class="bi bi-geo-alt-fill"></i> Dubai</h4>
+                        <p class="flex-grow-1">
+                            <strong>Address:</strong><br>
+                            Office No. 204, Century 21 Building<br>
+                            Plot No. 124-0463, Al Muraqabat<br>
+                            Deira, Dubai, UAE<br>
+                            <strong>Tel:</strong> +971 4-2725010<br>
+                            <strong>Fax:</strong> +971 4-2725149<br>
+                            <strong>Email:</strong> dubai@uenocorp.com
+                        </p>
+                        <a href="{% url 'uenowebsite:enquiry' %}" class="btn btn-primary mt-auto">Inquire Now</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Riyadh Office -->
+            <div class="col-md-4 col-sm-6 office-wrapper">
+                <div class="card office-card shadow h-100 d-flex flex-column">
+                    <img src="{% static 'images/riyadh.jpeg' %}" class="card-img-top" alt="Office in Riyadh">
+                    <div class="card-body d-flex flex-column">
+                        <h4 class="card-title"><i class="bi bi-geo-alt-fill"></i> Riyadh</h4>
+                        <p class="flex-grow-1">
+                            <strong>Address:</strong><br>
+                            Office # 115, AlRail Trading Center<br>
+                            Omar Al Mukhtaar St., Thulaim Area<br>
+                            Riyadh 11416, Saudi Arabia<br>
+                            P.O.Box No. 22748<br>
+                            <strong>Tel:</strong> +966 1-2048240 / 45 / 50<br>
+                            <strong>Fax:</strong> +966 1-4470363<br>
+                            <strong>Email:</strong> ueno@uenocorp.com
+                        </p>
+                        <a href="{% url 'uenowebsite:enquiry' %}" class="btn btn-primary mt-auto">Inquire Now</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Taiwan Office -->
+            <div class="col-md-4 col-sm-6 office-wrapper">
+                <div class="card office-card shadow h-100 d-flex flex-column">
+                    <img src="{% static 'images/taiwan.jpg' %}" class="card-img-top" alt="Office in Taiwan">
+                    <div class="card-body d-flex flex-column">
+                        <h4 class="card-title"><i class="bi bi-geo-alt-fill"></i> Taiwan</h4>
+                        <p class="flex-grow-1">
+                            <strong>Address:</strong><br>
+                            9F-4, No.30, SEC.3, Chung-Shan N.RD.<br>
+                            Taipei, Taiwan, R.O.C.<br>
+                            <strong>Tel:</strong> +886 2-25861503<br>
+                            <strong>Fax:</strong> +886 2-25957462
+                        </p>
+                        <a href="{% url 'uenowebsite:enquiry' %}" class="btn btn-primary mt-auto">Inquire Now</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Shanghai Office -->
+            <div class="col-md-4 col-sm-6 office-wrapper">
+                <div class="card office-card shadow h-100 d-flex flex-column">
+                    <img src="{% static 'images/shanghai.jpg' %}" class="card-img-top" alt="Office in Shanghai">
+                    <div class="card-body d-flex flex-column">
+                        <h4 class="card-title"><i class="bi bi-geo-alt-fill"></i> Shanghai</h4>
+                        <p class="flex-grow-1">
+                            <strong>Address:</strong><br>
+                            2-270 California Garden<br>
+                            Jin Qiu Rd, Shanghai, China 200444<br>
+                            <strong>Tel:</strong> +86 21-5613-8659<br>
+                            <strong>Fax:</strong> +86 21-6616-0367
+                        </p>
+                        <a href="{% url 'uenowebsite:enquiry' %}" class="btn btn-primary mt-auto">Inquire Now</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bahrain Office -->
+            <div class="col-md-4 col-sm-6 office-wrapper">
+                <div class="card office-card shadow h-100 d-flex flex-column">
+                    <img src="{% static 'images/bahrain.jpeg' %}" class="card-img-top" alt="Office in Bahrain">
+                    <div class="card-body d-flex flex-column">
+                        <h4 class="card-title"><i class="bi bi-geo-alt-fill"></i> Bahrain</h4>
+                        <p class="flex-grow-1">
+                            <strong>Address:</strong><br>
+                            Manama, Bahrain<br>
+                            <strong>Email:</strong> uenobah@gmail.com
+                        </p>
+                        <a href="{% url 'uenowebsite:enquiry' %}" class="btn btn-primary mt-auto">Inquire Now</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<!-- Sleek Back to Home CTA -->
+<div class="footer-cta mt-5 text-center">
+    <h4>Want to explore more about Ueno?</h4>
+    <a href="{% url 'uenowebsite:index' %}" class="btn btn-outline-primary btn-lg mt-3 px-5 py-3 shadow-sm">
+        <i class="bi bi-house me-2"></i>Back to Home
+    </a>
+</div>
+
+    </div>
+</div>
+
+<!-- JavaScript for sliding content -->
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Show the first about content by default
+        showAboutContent('company-overview');
+    });
+
+    function showAboutContent(contentId) {
+        // Hide all content sections
+        const allContent = document.querySelectorAll('.about-content');
+        allContent.forEach(function(content) {
+            content.style.display = 'none';
+        });
+        
+        // Remove active class from all category items
+        const allItems = document.querySelectorAll('.about-category-item');
+        allItems.forEach(function(item) {
+            item.classList.remove('active');
+        });
+        
+        // Show the selected content with slide-up animation
+        const selectedContent = document.getElementById(contentId + '-content');
+        if (selectedContent) {
+            selectedContent.style.display = 'block';
+            selectedContent.classList.remove('slide-up');
+            void selectedContent.offsetWidth; // Trigger reflow to restart animation
+            selectedContent.classList.add('slide-up');
+        }
+        
+        // Add active class to the clicked category
+        const clickedItem = document.querySelector(`.about-category-item[onclick="showAboutContent('${contentId}')"]`);
+        if (clickedItem) {
+            clickedItem.classList.add('active');
+        }
+        
+        // Smooth scroll to the content
+        selectedContent.scrollIntoView({ behavior: 'smooth', block: 'start', inline: 'nearest' });
+    }
+</script>
+{% endblock %}

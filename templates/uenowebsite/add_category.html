@@ -1,0 +1,49 @@
+{% extends 'uenowebsite/base.html' %}
+
+{% block title %}Ueno Corporation - Add Category{% endblock %}
+
+{% block content %}
+    <div class="container py-5">
+        <h1 class="text-center text-primary display-4">Add a Category</h1>
+
+        <!-- Category Form -->
+        <form id="category_form" method="post" action="{% url 'uenowebsite:add_category' %}">
+            {% csrf_token %}
+            
+            <!-- Loop through hidden fields -->
+            {% for hidden in form.hidden_fields %}
+                {{ hidden }}
+            {% endfor %}
+            
+            
+            <!-- Loop through visible fields and display them -->
+            {% for field in form.visible_fields %}
+                <div class="form-group mb-4">
+                    <!-- Display field errors if any -->
+                    {% if field.errors %}
+                        <div class="alert alert-danger">
+                            {% for error in field.errors %}
+                                <p>{{ error }}</p>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                    
+                    <!-- Label and field -->
+                    <label for="{{ field.id_for_label }}" class="font-weight-bold text-muted">{{ field.label }}</label> 
+                    <div class="mb-2">{{ field.help_text }}</div>
+                    <div class="mb-3">{{ field }}</div>
+                </div>
+            {% endfor %}
+            
+            <!-- Submit button -->
+            <div class="text-center">
+                <button type="submit" class="btn btn-primary btn-lg px-5 py-3">Create Category</button>
+            </div>
+        </form>
+
+        <!-- Back to Index link -->
+        <div class="mt-4 text-center">
+            <a href="{% url 'uenowebsite:index' %}" class="btn btn-outline-secondary btn-lg">Back to Index</a>
+        </div>
+    </div>
+{% endblock %}

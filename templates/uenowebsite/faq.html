@@ -1,0 +1,44 @@
+{% extends 'uenowebsite/base.html' %}
+{% load static %}
+
+{% block title %}Frequently Asked Questions (FAQ) - Ueno International Corporation{% endblock %}
+
+{% block content %}
+<section class="py-5 bg-dark text-white text-center">
+    <div class="container">
+        <h1 class="display-5 fw-bold">Frequently Asked Questions (FAQ)</h1>
+        <p class="lead">Here are answers to the most common inquiries we receive. If you have additional questions, feel free to contact us.</p>
+    </div>
+</section>
+
+<section class="py-5">
+    <div class="container">
+        <div class="accordion" id="faqAccordion">
+
+            {% comment %} FAQ entries {% endcomment %}
+            {% for question, answer in faqs %}
+            <div class="accordion-item mb-3">
+                <h2 class="accordion-header" id="heading{{ forloop.counter }}">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#collapse{{ forloop.counter }}" aria-expanded="false"
+                        aria-controls="collapse{{ forloop.counter }}">
+                        {{ question }}
+                    </button>
+                </h2>
+                <div id="collapse{{ forloop.counter }}" class="accordion-collapse collapse"
+                    aria-labelledby="heading{{ forloop.counter }}" data-bs-parent="#faqAccordion">
+                    <div class="accordion-body">
+                        {{ answer|safe }}
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <div class="text-center mt-5">
+            <h4>Still have a question?</h4>
+            <p><a href="{% url 'uenowebsite:enquiry' %}" class="btn btn-outline-primary mt-3"><i class="bi bi-question-circle me-2"></i>Contact Us</a></p>
+        </div>
+    </div>
+</section>
+{% endblock %}
