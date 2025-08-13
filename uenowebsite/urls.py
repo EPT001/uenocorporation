@@ -1,6 +1,5 @@
 from django.urls import path
 from uenowebsite import views
-from django.views.generic.base import RedirectView
 
 
 app_name = 'uenowebsite'
@@ -17,8 +16,6 @@ urlpatterns = [
 
     path('product/<int:product_id>/', views.product_detail, name='product_detail'),
     path('president-message/', views.president_message, name='president_message'),
-
-    path('realestate.html', RedirectView.as_view(url='/', permanent=True)),
 
 
 
