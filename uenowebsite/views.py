@@ -13,19 +13,34 @@ from uenowebsite.forms import CategoryForm, EnquiryForm, PageForm
 def index(request):
     category_list = Category.objects.all()
     products = Product.objects.all()
-    buildings = Building.objects.all().order_by('series', 'name')
-    
+
+    # Custom series order
+    series_order = Case(
+        When(series="Reve Maison", then=Value(1)),
+        When(series="Reve G's HOUSE", then=Value(2)),
+        When(series="H-maison", then=Value(3)),
+        When(series="Comfort", then=Value(4)),
+        When(series="Onlyone", then=Value(5)),
+        default=Value(99),  # unknown series go to the end
+        output_field=IntegerField(),
+    )
+
+    # Apply custom order
+    buildings = Building.objects.all().order_by(series_order, "name")
+
+    # Group buildings by series while keeping order
     grouped_buildings = defaultdict(list)
     for building in buildings:
         grouped_buildings[building.series].append(building)
-    
+
+    # Keep dict in insertion order (Python 3.7+ preserves dict order)
     context_dict = {
         'boldmessage': 'Welcome to Ueno Corporation – Global Trading Excellence!',
         'categories': category_list,
         'products': products,
-        'grouped_buildings': dict(grouped_buildings),  # Convert to regular dict for template
+        'grouped_buildings': dict(grouped_buildings),
     }
-    
+
     return render(request, 'uenowebsite/index.html', context=context_dict)
 
 
