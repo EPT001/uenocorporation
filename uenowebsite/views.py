@@ -4,6 +4,8 @@ from uenowebsite.models import Category
 from uenowebsite.models import Page
 from django.templatetags.static import static
 from collections import defaultdict
+from django.db.models import Case, When, Value, IntegerField
+
 
 from uenowebsite.models import Product, Building
 from uenowebsite.forms import CategoryForm, EnquiryForm, PageForm
