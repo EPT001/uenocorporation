@@ -25,32 +25,34 @@
         background-position: center;
         background-repeat: no-repeat;
         filter: brightness(0.65);
-        z-index: 0;
+        z-index: -1;
     }
 
     /* Hero Caption (centered on top of background) */
     .hero-caption {
-        position: absolute;
-        top: 25%;
+        position: fixed;
+        top: 15%;
         left: 50%;
         transform: translateX(-50%);
-        background: rgba(0, 0, 0, 0.5);
-        padding: 40px 30px;
+        background: rgba(0, 0, 0, 0.7);
+        padding: 30px 25px;
         border-radius: 12px;
-        max-width: 700px;
+        max-width: 600px;
         color: white;
-        z-index: 2;
+        z-index: 1;
         text-align: center;
     }
 
     .hero-caption h3 {
-        font-size: 3rem;
+        font-size: 2.5rem;
         font-weight: 700;
+        margin-bottom: 0.5rem;
+
     }
 
     .hero-caption p {
-        font-size: 1.25rem;
-        margin-top: 0.5rem;
+        font-size: 1.1rem;
+    margin: 0;
     }
 
     /* Section with background gradient */
@@ -58,23 +60,25 @@
         background: linear-gradient(to bottom, #f4f6fa 0%, #ffffff 100%);
         padding: 80px 0;
         position: relative;
-        z-index: 1;
+        z-index: 2;
     }
 
     .floating-form-container {
-        margin-top: 60vh;
+        margin-top: 45vh;
+        position: relative;
+        z-index: 10;
     }
 
     .form-wrapper {
         background-color: var(--white);
         border-radius: 20px;
-        padding: 3.5rem;
+        padding: 3rem;
         max-width: 960px;
         margin: 0 auto;
         box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
         animation: slideUp 0.8s ease-out;
         position: relative;
-        z-index: 1;
+        z-index: 10;
     }
 
     @keyframes slideUp {
@@ -94,7 +98,7 @@
     }
 
     .form-heading h2 {
-        font-size: 2.5rem;
+        font-size: 2.2rem;
         color: var(--primary-blue);
         font-weight: 700;
     }
@@ -158,20 +162,28 @@
 
     .footer-cta {
         text-align: center;
-        padding: 50px 20px;
+        padding: 40px 20px;
         background: var(--light-gray);
-        margin-top: 60px;
+        margin-top: 40px;
         border-radius: 16px;
         position: relative;
-        z-index: 1;
+        z-index: 10;
     }
 
     footer {
         position: relative;
-        z-index: 1;
+        z-index: 10;
     }
 
     @media (max-width: 768px) {
+
+        .hero-caption {
+        top: 10%;
+        max-width: 90%;
+        padding: 20px;
+    }
+
+        
         .hero-caption h3 {
             font-size: 2rem;
         }
@@ -185,8 +197,12 @@
         }
 
         .floating-form-container {
-            margin-top: 50vh;
+            margin-top: 35vh;
         }
+
+        .form-heading h2 {
+        font-size: 1.8rem;
+    }
     }
 </style>
 
