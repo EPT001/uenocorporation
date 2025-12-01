@@ -94,29 +94,26 @@ def add_category(request):
     return render(request, 'uenowebsite/add_category.html', {'form': form})
 
 def enquiry(request):
+    # Detect language from query string, default to English
+    lang = request.GET.get("lang", "en")
+    template = "uenowebsite/enquiry_ja.html" if lang == "ja" else "uenowebsite/enquiry_en.html"
+
     if request.method == 'POST':
-        # If the form is submitted, populate the form with POST data
         form = EnquiryForm(request.POST)
-        
-        # Check if the form is valid
+
         if form.is_valid():
-            # Save the enquiry data into the database
             form.save()
-            
-            # Show a success message after submission
-            return render(request, 'uenowebsite/enquiry.html', {
-                'form': form,
-                'message': 'Thank you for your enquiry! We will get back to you soon.'
+            return render(request, template, {
+                'form': EnquiryForm(),  # show a fresh empty form after save
+                'message': 'お問い合わせありがとうございます。追ってご連絡いたします。' if lang == 'ja'
+                           else 'Thank you for your enquiry! We will get back to you soon.'
             })
         else:
-            # If the form is invalid, you can print the errors (or handle them in a more user-friendly way)
             print(form.errors)
     else:
-        # For a GET request, just show an empty form
         form = EnquiryForm()
 
-    # Render the enquiry form on the page
-    return render(request, 'uenowebsite/enquiry.html', {'form': form})
+    return render(request, template, {'form': form})
 
 def add_page(request, category_name_slug):
 
