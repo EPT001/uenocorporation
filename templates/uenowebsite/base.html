@@ -999,27 +999,39 @@
         <!-- Navbar Links -->
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ms-auto align-items-center">
-                <li class="nav-item"><a href="{% url 'uenowebsite:index' %}" class="nav-link">Home</a></li>
-                <li class="nav-item"><a href="{% url 'uenowebsite:about' %}" class="nav-link">About</a></li>
-                <li class="nav-item"><a href="{% url 'uenowebsite:enquiry' %}" class="nav-link">Enquiry</a></li>
-                <li class="nav-item"><a href="{% url 'uenowebsite:faq' %}" class="nav-link">FAQ</a></li>
-                <li class="nav-item"><a href="{% url 'uenowebsite:president_message' %}" class="nav-link">President’s Message</a></li>
 
-                <!-- Language Switcher -->
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="languageDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        🌐 Language
-                    </a>
-                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="languageDropdown">
-                        <li><a class="dropdown-item" href="javascript:void(0)" onclick="translatePage('en')">English</a></li>
-                        <li><a class="dropdown-item" href="javascript:void(0)" onclick="translatePage('ja')">日本語</a></li>
-                      </ul>
-                      
+                <li class="nav-item">
+                    <a href="{% url 'uenowebsite:index' %}" class="nav-link">Home</a>
                 </li>
+
+                <li class="nav-item">
+                    <a href="{% url 'uenowebsite:about' %}" class="nav-link">About</a>
+                </li>
+
+                <li class="nav-item">
+                    <a href="{% url 'uenowebsite:enquiry' %}" class="nav-link">Enquiry</a>
+                </li>
+
+                <li class="nav-item">
+                    <a href="{% url 'uenowebsite:faq' %}" class="nav-link">FAQ</a>
+                </li>
+
+                <li class="nav-item">
+                    <a href="{% url 'uenowebsite:president_message' %}" class="nav-link">President’s Message</a>
+                </li>
+
+                <!-- ✅ Correct Language Switcher -->
+                <li class="nav-item d-flex align-items-center ms-3">
+                    <a href="{{ request.path }}?lang=en" class="nav-link p-0">EN</a>
+                    <span class="mx-1">|</span>
+                    <a href="{{ request.path }}?lang=ja" class="nav-link p-0">日本語</a>
+                </li>
+
             </ul>
         </div>
     </div>
 </nav>
+
 
     {% block content %}
     <!-- Video Carousel Background -->
