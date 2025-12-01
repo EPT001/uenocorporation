@@ -96,7 +96,7 @@ def add_category(request):
 def enquiry(request):
     # Detect language from query string, default to English
     lang = request.GET.get("lang", "en")
-    template = "uenowebsite/enquiry_ja.html" if lang == "ja" else "uenowebsite/enquiry_en.html"
+    template = "uenowebsite/enquiry_ja.html" if lang == "ja" else "uenowebsite/enquiry.html"
 
     if request.method == 'POST':
         form = EnquiryForm(request.POST)
