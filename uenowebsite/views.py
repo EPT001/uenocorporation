@@ -47,8 +47,20 @@ def index(request):
 
 
 def about(request):
-    context_dict = {'boldmessage': 'Here is the about page.'}
-    return render(request, 'uenowebsite/about.html', context=context_dict)
+    # Detect language (default = English)
+    lang = request.GET.get("lang", "en")
+
+    template = (
+        "uenowebsite/about_ja.html"
+        if lang == "ja"
+        else "uenowebsite/about.html"
+    )
+
+    context_dict = {
+        'boldmessage': 'Here is the about page.'
+    }
+
+    return render(request, template, context=context_dict)
 
 def show_category(request, category_name_slug):
     # Create a context dictionary to pass data to the template
